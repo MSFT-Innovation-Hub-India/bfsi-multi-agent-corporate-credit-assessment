@@ -1,0 +1,74 @@
+# MARKET INTELLIGENCE DIRECTIVE - GMR AIRPORTS SENTIMENT SYNTHESIS
+
+## MISSION BRIEF
+Execute comprehensive sentiment analysis for **GMR Airports Infrastructure Limited** leveraging real-time news intelligence to assess market perception, investor confidence, and sector positioning for credit decision support.
+
+## EXECUTION PROTOCOL
+
+**PHASE 1: DATA ACQUISITION**
+→ **INVOKE:** `fetch_gmr_infrastructure_news()`
+→ **SCOPE:** Complete article array with metadata (dates, sources, sentiment indicators)
+→ **VALIDATION:** Ensure data includes GMR-specific + infrastructure sector coverage
+
+**PHASE 2: INTELLIGENCE EXTRACTION**
+
+**Extract from Each Article:**
+• **SENTIMENT MARKERS:** Bullish/bearish/neutral language, positive/negative tone
+• **QUANTITATIVE DATA:** Stock price movements (%), passenger traffic numbers, financial metrics
+• **ANALYST INTELLIGENCE:** Ratings (Buy/Hold/Sell), target prices, recommendation changes
+• **OPERATIONAL METRICS:** Traffic growth %, revenue figures, margin trends
+• **STRATEGIC DEVELOPMENTS:** Concession wins, capacity expansions, regulatory approvals
+• **COMPETITIVE CONTEXT:** Peer comparisons, market share insights, sector trends
+
+**PHASE 3: STRUCTURED OUTPUT GENERATION**
+
+**COMPONENT 1: Current Sentiment Snapshot (Q4 2025)**
+→ Opening paragraph synthesizing overall market mood (optimistic/mixed/cautious)
+→ GMR-specific sentiment with concrete examples and date references
+→ Stock performance context (YTD returns, volatility, peer comparison)
+→ Source-attributed quotes and data points
+
+**COMPONENT 2: Source-Wise Sentiment Breakdown**
+→ Table format: | News Source | Tone on GMR Airports | Tone on Infrastructure Sector |
+→ **GMR Column:** Detailed bullish/bearish/neutral analysis with specific examples (ratings, traffic data, price targets)
+→ **Sector Column:** Broader infrastructure/airport sector sentiment, competitor coverage
+→ **Insight Paragraph:** Pattern analysis across sources (which are bullish vs conservative, GMR vs sector focus)
+
+**COMPONENT 3: Sentiment Timeline**
+→ Chronological entries: **[Month Year]: [Event Title]**
+→ Description with sentiment impact (stock price reaction, analyst response)
+→ Use <b>bold tags</b> for key sentiment indicators
+→ Focus on inflection points where sentiment shifted materially
+
+## QUALITY STANDARDS
+
+**Data Integrity:**
+• **REAL DATA ONLY** - Extract from actual articles, zero fabrication
+• **SOURCE ATTRIBUTION** - Every assertion must cite [source_name]
+• **TEMPORAL ACCURACY** - Use actual article dates for timeline
+• **QUANTIFICATION** - Include specific % changes, price levels, traffic numbers
+
+**Analytical Rigor:**
+• **BALANCED VIEW** - Present both positive and negative sentiment indicators
+• **CONTEXT** - Explain WHY sentiment is bullish/bearish (fundamentals, events, macro)
+• **GRANULARITY** - Source-by-source variation analysis
+• **CREDIT RELEVANCE** - Highlight implications for creditworthiness
+
+**Presentation:**
+• **PROFESSIONAL TONE** - Financial analyst language, objective assessment
+• **EMPHASIS** - <b> tags for sentiment words (bullish sentiment, positive outlook, concerns)
+• **STRUCTURE** - Follow prescribed format exactly
+• **READABILITY** - Executive summary style, scannable format
+
+## DELIVERABLE CHECKLIST
+☐ Current Sentiment Snapshot with GMR deep-dive
+☐ Complete source-wise sentiment table (all news outlets covered)
+☐ Insight paragraph analyzing source patterns
+☐ Timeline with major sentiment-shifting events
+☐ All data points source-attributed
+☐ <b> tags applied to key sentiment indicators
+☐ Professional financial analysis tone throughout
+
+---
+
+**EXECUTE NOW: Generate comprehensive GMR sentiment intelligence report for credit committee review.**

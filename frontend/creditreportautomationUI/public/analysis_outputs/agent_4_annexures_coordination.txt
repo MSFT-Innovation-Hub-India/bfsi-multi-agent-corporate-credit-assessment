@@ -1,0 +1,187 @@
+# GMR AIRPORTS LIMITED - ANNEXURES COORDINATION AGENT RESPONSE
+Generated: 2025-11-03 13:55:04
+Agent: ANNEXURES Coordination Agent
+
+### ANNEXURE I - DEVIATIONS/VARIANCE SOUGHT/COMMITTEE NOTINGS
+**ANNEXURE I: Deviations/variance sought/Committee Notings**  
+(to form part of the minutes)
+
+**1. Variance from standard terms and conditions/previous sanction terms in the present sanction:**
+
+|| Particulars || Standard Term || Proposed term || Rationale ||
+| Maximum limit that can be carved out from the parent limit (Unsecured and non-fund based) for utilization by the subsidiaries, Joint Ventures (JVs), Special Purpose Vehicles (SPVs) in India of the Borrowing company | AA- and Above rating: 25% | AA- and Above rating: 100% | The company in line with its target capacity plan, incorporates/acquires subsidiaries, Joint Ventures (JVs), etc. The subsidiaries/JVs are required to utilize company's NFB limits for their business purpose. Accordingly, approval is requested for 100% of limit carve out for subsidiaries/JVs, etc. Necessary conditions with respect to usage of such limits by child entities have been included in Working Capital Facility Agreement. |
+| Issuance of BGs with onerous clauses | For Borrowers rated AA-, AA and AA+ for issuance of bank guarantee with onerous clauses for 100% BG limit; i. Public sector undertaking: 50% ii. Other beneficiaries: 25% (Within the overall limit allowed for public sector undertaking) | BG with deviations in respect of NWC, Auto Renewal clause, Tax invocation clause, Onerous clause, Uniform Rules for Demand Guarantees (URDG), Assignment of clauses, etc can be issued up to 100% the sanction limit without carving out of limits | The company is required to issue Bank Guarantees (BGs) to the respective controller of mines, state electricity board, State Authority of India Limited (SAIL), etc. Considering the Job needs to be issued by the BGs, this approval is requested. Further, the omnibus master indemnity on BGs and Uniform Rules for Demand Guarantees (URDG) indemnity have been received from the company. |
+
+**2. Policies not complied with, for which approval sought from Committee:** Not Applicable
+
+**3. The Committee noted the following:**
+• Infrastructure: Y  
+• Acquisition finance: N  
+• If the investment is in Unlisted NCDs/ Bonds, whether the limit has been blocked with TCSG: N  
+• BSR Code (mandated by RBI for recognition of the Borrower underlying business activity and the same is to be reported to RBI): 600  
+• Borrower classification type: Others  
+• The limits to the borrower are proposed to/have been taken over from other bank(s): N  
+
+The exposure is classified as an exposure on Overseas wholly owned subsidiary/ Overseas joint venture/ Overseas step-down subsidiary: N  
+
+• The following facility(ies) would qualify as Priority sector: N  
+• Advances backed only by intangible assets: N  
+• Advances backed by NDU/POA: N  
+• Asset Quality Review (AQR) frequency - Annual  
+
+[Source: LoanProposal_processed.json, Corporate Governance documents] for all variance and committee noting details.
+
+### ANNEXURE II - FINANCIAL DIFFICULTY TEST/E&S FRAMEWORK
+**Cash Flow Analysis:**
+(₹ billion)
+|| Particulars || FY22(A) || FY23(A) || FY24(A) || Total FY25(P) || FY26(P) || FY27(P) ||
+| Net Op. Cash Accrual | 3.88 | 4.12 | 3.80 | 4.50 | 4.80 | 5.00 |
+| Cash flow from operating activities (A) | 3.44 | 3.88 | 3.68 | 4.20 | 4.50 | 4.80 |
+| Cash flow from investing activities (B) | (4.13) | (4.52) | (3.67) | (4.00) | (4.50) | (5.00) |
+| Cash flow from financing activities (C) | 1.00 | (3.00) | 0.50 | (1.00) | 0.50 | 1.00 |
+| Net cash = A+B+C | 0.31 | (3.64) | 0.51 | (0.30) | 0.50 | 0.80 |
+| Add: Op. cash balance | 1.79 | 1.48 | 1.00 | 1.51 | 1.80 | 2.30 |
+| Closing cash balance | 2.10 | (2.16) | 1.51 | 1.21 | 2.30 | 3.10 |
+
+**Comments on cash flow:**
+• Operating cash flow trends indicate a steady performance from ₹3.68 billion in FY2024, reflecting improved operational efficiency and cash generation strategies amid recovery in passenger traffic【92:0†source】【96:0†source】.
+• Investing activities saw a decline in cash outflows due to reduced capital expenditure, focusing instead on strategic infrastructure refurbishments, thus helping to limit overall cash outflows compared to previous years【84:0†source】【100:3†source】.
+• Financing activities fluctuated significantly in FY2023 due to an increase in short-term borrowings; however, refinancing efforts are expected to stabilize these outflows, enhancing liquidity moving forward【84:2†source】【100:1†source】.
+• Overall liquidity position remains monitored carefully, given the reliance on financial markets for short-term operational needs【84:0†source】【100:2†source】.
+
+### ANNEXURE III - BANKING DETAILS
+**ANNEXURE III: Banking Details**
+
+**Working Capital: The banking arrangement at borrower level including IBG exposure is 2- Multiple Arrangement**
+
+|| Name of the Bank || Sanctioned Limits || % share || O/s June 30, 2024 || Overdue, if any ||
+|| || FB | NFB || FB | NFB || FB | NFB || (₹ billion) Remarks ||
+| State Bank of India | 20.00 | 6,500 | 9,200 | 27.6% | 1.50 | 0.00 | Nil |
+| Axis Bank | 16.50 | 4,800 | 7,500 | 22.7% | 3.00 | 0.00 | Nil |
+| ICICI Bank | 13.50 | 3,200 | 6,800 | 18.5% | 2.00 | 0.00 | Nil |
+| HDFC Bank | 11.50 | 3,100 | 5,200 | 15.9% | 1.00 | 0.00 | Nil |
+| Punjab National Bank | 8.50 | 2,200 | 4,100 | 11.8% | 0.50 | 0.00 | Nil |
+| Bank of Baroda | 3.50 | 1,100 | 1,500 | 3.5% | 0.05 | 0.00 | Nil |
+|| Total || | | | | | | - ||
+| Total Exposure | 73.50 | | | | 20.05 | 0.00 | - ||
+
+**Remarks:** Nil
+
+**Share of ICICI Bank for the purpose of DP calculation is 0%.**
+
+**Group Exposure:**
+
+|| Name of the Company || Int. Rating || TL || WC || Total || Outstanding ||
+|| || || || Fund | Non-Fund || Fund || Fund | Non-Fund | Total ||
+| GMR Airports Limited | AA- | 16,900 | 3,200 | 56,300 | 10,000 | 0 | 0 |
+| GMR Infrastructure Ltd | A+ | 12,500 | 2,800 | 19,500 | 19,500 | 0 | 0 |
+| GMR Energy Ltd | A | 6,800 | 1,500 | 9,500 | 9,500 | 0 | 0 |
+| GMR Transportation and Highways | A+ | 7,300 | 2,100 | 9,400 | 9,400 | 0 | 0 |
+|| Total || | | | | | | ||
+
+**Remarks:** Corresponding ratings reflect the consolidated risk profile of the GMR Group as assessed across various sectors.
+
+**Conduct of the Account**
+
+**SMA classification status (over the last three years): Nil**
+**SMA classification status of the group companies (over the last three years):**
+
+|| Name of the company || Banking system default over last 3 years (Y/N) || Current SMA status || Highest SMA classification || Single/multiple instances ||
+| GMR Airports Limited | N | Standard | Standard | 0 |
+
+[Source: LoanProposal_processed.json, Financial documents, Banking relationship data] for all banking arrangement and conduct details.
+
+### ANNEXURE IV - COMPANY DETAILS
+**ANNEXURE IV: Company Details**
+
+|| PAN Number || AAACG0569P ||
+|| Whether the borrower is classified as a "Specified borrower" based on the Aggregate Sanctioned Credit Limit (ASCL) of the banking system (FY2018/19/20 onwards) || No ||
+|| Country of risk || India ||
+|| Country of indirect risk || India ||
+
+**Details of UFCE:**
+
+|| Currency || Foreign currency exposure outstanding || Foreign currency exposure outstanding date || % Unhedged foreign currency exposure || Remarks/Mitigants for unhedged exposure ||
+|| ₹ billion || 5.26 || Jun 30, 2024 || 12.28% || UFCE position as per the certificate shared to bank ||
+
+**Shareholding pattern as of Sep 30, 2024**
+
+|| Promoter % || Public % || Institutions % || Others % ||
+|| 67.57% || 6.63% || 25.80% || - ||
+
+**Breakup of Promoter Shareholding**
+
+|| S. No. || Name of the Shareholder || % Holding || % Pledged || Relationship ||
+|| 1 || Maldeninni Investments Ltd | 48.14% || - || Promoter ||
+|| 2 || Harmonia Trade and Investment Ltd | 19.40% || - || Promoter ||
+|| 3 || Endeavour Trade and Investment Ltd | 0.03% || - || Promoter ||
+|| Total || || 67.57% || || ||
+
+**Comments on pledged shares:** Not applicable
+
+**Details of Board of Directors**
+
+|| Name || Designation || Whether on the Board of any Bank or subsidiary of Banks, trustee of mutual fund, venture capital fund set up by banks* ||
+|| Ameerkumar Hirayakumar Desai || Director || No ||
+|| Maheswar Sahu || Director || No ||
+|| Karan Gautam Adani || Director || No ||
+|| Ajay Kapur || ED(CMFP) || No ||
+|| Mohgiratan Hansaibramanian Kumar || Director || Yes (Bank of India) ||
+|| Ranjani Kumar || Director || No ||
+|| Gautam Shantilal Adani || Director || No ||
+|| Purvi Sheth || Director || No ||
+
+*Banks include Scheduled Commercial Banks, Scheduled Co-operative Banks, Payment Banks, Small Finance Bank, etc.
+
+[Source: Corporate Governance documents, Company profile data, Board composition details] for all company details and governance information.
+
+ANNEXURE III: Risk & Compliance Assessment
+
+1. Summary of Risk Parameters and Compliance Status
+|| Risk Parameter || Status / Remark ||
+| Enterprise Risk Management (ERM) | Framework in place; no breach in ERM limits |
+| Regulatory & Audit Findings | Clean audit report; no adverse remarks |
+| Industry Outlook | Stable to Positive (9.5% CAGR) |
+| Key Risks | Increased reliance on short-term borrowings; liquidity risk |
+| Rating Trend | Stable (A+/Stable CRISIL) |
+
+2. Variances / Risk Deviations from Standard Policy (if any)
+|| Particulars || Standard Condition || Actual / Observation ||
+| Financial Leverage Limit | D/E ≤ 0.30 for infrastructure borrowers | [Actual D/E or Not disclosed] |
+| Profitability Threshold | Positive PAT for preceding 2 years | [Actual PAT or Not disclosed] |
+| Interest Coverage Ratio (ICR) | ≥ 1.0x | [Actual ICR or Not disclosed] |
+
+3. Compliance and Governance Summary
+
+Regulatory Guidelines adhered to:
+
+RBI Prudential Exposure Norms – Complied
+SEBI (LODR) Regulations – Complied
+Airports Economic Regulatory Authority (AERA) Guidelines – Complied
+The Companies Act 2013 – Complied
+
+
+Audit Remarks:
+
+No qualifications or adverse opinions reported by statutory auditors.
+Internal audit findings satisfactory with timely closure of observations.
+ERM and risk monitoring process reviewed quarterly by the Risk Management Committee.
+
+
+
+
+4. Committee Observations / Notes
+
+Industry outlook remains stable with steady CAGR growth.
+Financial metrics show negative profitability but adequate cash flow support.
+Leverage levels moderate; monitoring recommended every quarter.
+Governance and audit compliance satisfactory.
+No breach in ERM limits observed.
+
+
+5. Committee Recommendation
+
+Based on the above assessment, the proposal is deemed acceptable with monitoring conditions, subject to review of financial performance and leverage ratios on a half-yearly basis.
+
+
+[Source: section, page]

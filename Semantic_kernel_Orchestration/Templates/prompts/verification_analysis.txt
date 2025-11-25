@@ -1,0 +1,196 @@
+# VERIFICATION DIRECTIVE - 9-DOCUMENT CROSS-VALIDATION
+
+## MISSION BRIEF
+Execute systematic cross-document verification of GMR Airports loan proposal across 9 source documents to identify inconsistencies, validate claims, and assess proposal integrity for credit approval.
+
+## VERIFICATION PROTOCOL (9-Layer Analysis)
+
+---
+
+### LAYER 1: FINANCIAL RATIOS VALIDATION
+**Source:** `Financial_ratios_processed.json`
+**Anchor:** Loan Proposal
+
+**Verification Checklist:**
+☐ Leverage ratios (D/E, Debt/EBITDA, Net Debt/EBITDA) - Proposal vs Actual
+☐ Coverage ratios (DSCR, ICR, Fixed Charge Coverage) - Compliance check
+☐ Liquidity ratios (Current, Quick, Cash) - Working capital adequacy
+☐ Profitability ratios (ROCE, ROE, EBITDA margin) - Performance validation
+
+**Output Format:**
+|| Ratio || Proposal Value || Actual Value || Variance || Status ||
+| Debt/Equity | X.XX | X.XX | +/-X.XX | ✓/⚠/✗ |
+
+**Flag:** Material variance >5% or covenant breach
+
+---
+
+### LAYER 2: STANDALONE AUDIT RECONCILIATION
+**Source:** `Standalone_Auditors_report_processed.json`
+**Anchor:** Loan Proposal Financial Figures
+
+**Verification Checklist:**
+☐ Revenue figures - Proposal vs Audited P&L
+☐ EBITDA/PAT - Proposal vs Audited statements
+☐ Total Debt outstanding - Proposal vs Balance Sheet
+☐ Net Worth - Proposal vs Audited equity
+☐ Audit Opinion - Clean/Qualified (any emphasis of matter?)
+☐ Contingent Liabilities - Disclosed in proposal?
+
+**Output:** Numerical reconciliation table + Audit qualification impact
+
+---
+
+### LAYER 3: CONSOLIDATED AUDIT VALIDATION
+**Source:** `Consolidated_Auditor's_Report_processed.json`
+**Anchor:** Group-level exposure claims
+
+**Verification Checklist:**
+☐ Consolidated vs Standalone differences - Subsidiary impact
+☐ Group debt exposure - Proposal group limits vs actual
+☐ Inter-company transactions - Related party exposure
+☐ Consolidation adjustments - Material items noted
+
+**Output:** Group structure consistency check + Consolidation concerns
+
+---
+
+### LAYER 4: MDA OPERATIONAL VALIDATION
+**Source:** `MDA_processed.json`
+**Anchor:** Business outlook and operational claims
+
+**Verification Checklist:**
+☐ Passenger traffic - Proposal claims vs MDA actuals
+☐ Revenue projections - Proposal vs Management guidance
+☐ Capex plans - Proposal purpose vs MDA disclosure
+☐ Risk disclosures - Proposal risk section vs MDA risks
+☐ Strategic initiatives - Alignment check
+
+**Output:** Operational metrics reconciliation + Narrative consistency
+
+---
+
+### LAYER 5: RATING CONSISTENCY CHECK
+**Source:** `RatingRationale_processed.json`
+**Anchor:** Credit rating mentioned in proposal
+
+**Verification Checklist:**
+☐ Rating grade - Proposal vs Agency rating
+☐ Rating outlook - Stable/Positive/Negative alignment
+☐ Rating rationale - Key strengths/concerns match?
+☐ Rating date - Currency of rating (within 12 months?)
+
+**Output:** Rating validation + Outlook implications for credit decision
+
+---
+
+### LAYER 6: BOARD REPORT GOVERNANCE CHECK
+**Source:** `boards_report_processed.json`
+**Anchor:** Board approvals and strategic decisions
+
+**Verification Checklist:**
+☐ Board composition - Proposal directors vs Board report
+☐ Board resolutions - Loan approval documented?
+☐ Strategic decisions - Capex/expansion plans consistency
+☐ Regulatory compliance - Board certifications
+
+**Output:** Governance validation + Authorization confirmation
+
+---
+
+### LAYER 7: CORPORATE GOVERNANCE VALIDATION
+**Source:** `corporate_governance_processed.json`
+**Anchor:** Shareholding, pledges, related parties
+
+**Verification Checklist:**
+☐ Shareholding pattern - Proposal % vs actual
+☐ Promoter pledges - Disclosed pledge % accuracy
+☐ Related party transactions - Group company linkages
+☐ Compliance certifications - Regulatory adherence
+
+**Output:** Ownership structure accuracy + Pledge risk assessment
+
+---
+
+### LAYER 8: GMR CORE DOCUMENT VALIDATION
+**Source:** `GMR_processed.json`
+**Anchor:** Business description, operational claims
+
+**Verification Checklist:**
+☐ Airport portfolio - Proposal list vs actual operations
+☐ Capacity data - MPPA claims vs disclosed capacity
+☐ Business segments - Revenue split accuracy
+☐ Banking consortium - Existing banker relationships
+☐ Facility utilization - Outstanding vs sanctioned limits
+
+**Output:** Business profile consistency + Operational data accuracy
+
+---
+
+### LAYER 9: PROPOSAL INTERNAL CONSISTENCY
+**Source:** `LoanProposal_processed.json`
+**Anchor:** Self-consistency check
+
+**Verification Checklist:**
+☐ Internal arithmetic - Facility totals, sub-limits add up?
+☐ Date consistency - All dates/tenures aligned?
+☐ Terminology consistency - Terms used uniformly?
+☐ Completeness - All mandatory sections present?
+
+**Output:** Internal coherence assessment
+
+---
+
+## CONSOLIDATION & REPORTING
+
+**EXECUTIVE SUMMARY TABLE:**
+
+|| Verification Layer || Status || Critical Issues || Minor Issues ||
+| Financial Ratios | ✓/⚠/✗ | [Count] | [Count] |
+| Standalone Audit | ✓/⚠/✗ | [Count] | [Count] |
+| Consolidated Audit | ✓/⚠/✗ | [Count] | [Count] |
+| MDA Operational | ✓/⚠/✗ | [Count] | [Count] |
+| Rating Consistency | ✓/⚠/✗ | [Count] | [Count] |
+| Board Report | ✓/⚠/✗ | [Count] | [Count] |
+| Corporate Governance | ✓/⚠/✗ | [Count] | [Count] |
+| GMR Core Document | ✓/⚠/✗ | [Count] | [Count] |
+| Proposal Internal | ✓/⚠/✗ | [Count] | [Count] |
+
+**OVERALL VERIFICATION STATUS:**
+
+**✅ VERIFIED (Consistent Across Documents):**
+- [List all data points confirmed with <5% variance]
+
+**⚠️ REQUIRES CLARIFICATION (Minor Variances 5-10%):**
+- [List items needing borrower explanation]
+- Recommended Action: [Seek clarification/Additional documentation]
+
+**❌ CRITICAL INCONSISTENCIES (>10% Variance or Material Discrepancy):**
+- [List major mismatches affecting credit decision]
+- Impact Assessment: [HIGH/MEDIUM/LOW]
+- Recommended Action: [Reject/Defer/Conditional approval]
+
+**FINAL VERIFICATION CONCLUSION:**
+
+**Proposal Integrity Score:** [X/10]
+**Data Accuracy Rating:** HIGH / MEDIUM / LOW
+**Documentation Completeness:** [X%]
+
+**Credit Committee Recommendation:**
+- **PROCEED:** All verifications passed, minor clarifications acceptable
+- **CLARIFY & RESUBMIT:** Material discrepancies require borrower response
+- **REJECT:** Critical inconsistencies undermine proposal credibility
+
+**Key Findings:**
+1. [Most critical finding]
+2. [Second priority finding]
+3. [Third priority finding]
+
+**Risk Considerations:**
+- [Risk implications of identified discrepancies]
+
+---
+
+[Source: Cross-verification across all 9 documents] for every data point and validation result.
+
+**EXECUTE NOW: Systematic forensic verification with full discrepancy reporting.**
