@@ -1,0 +1,13 @@
+# Deployment-ready Azure AI dependencies
+azure-ai-projects==1.0.0b10
+azure-identity==1.25.1
+azure-storage-blob==12.23.1
+semantic-kernel==1.29.0
+
+# Core FastAPI dependencies
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+python-multipart==0.0.12
+
+# Utility dependencies
+python-dotenv==1.0.1

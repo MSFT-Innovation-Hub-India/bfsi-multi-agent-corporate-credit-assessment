@@ -1,0 +1,94 @@
+{
+  "processing_timestamp": "2025-10-08T10:44:17.769605",
+  "total_files": 9,
+  "successful_files": 9,
+  "failed_files": 0,
+  "total_original_tokens": 193710,
+  "total_processed_tokens": 238276,
+  "token_reduction_percentage": -23.00655619224614,
+  "total_chunks_created": 407,
+  "average_tokens_per_chunk": 585,
+  "processing_results": [
+    {
+      "success": true,
+      "input_file": "extracted_data\\boards_report.json",
+      "output_file": "processed_data\\boards_report_processed.json",
+      "original_tokens": 55105,
+      "processed_tokens": 65743,
+      "chunks_created": 97,
+      "sections_identified": 2
+    },
+    {
+      "success": true,
+      "input_file": "extracted_data\\Consolidated_Auditor's_Report.json",
+      "output_file": "processed_data\\Consolidated_Auditor's_Report_processed.json",
+      "original_tokens": 34648,
+      "processed_tokens": 43531,
+      "chunks_created": 70,
+      "sections_identified": 2
+    },
+    {
+      "success": true,
+      "input_file": "extracted_data\\corporate_governance.json",
+      "output_file": "processed_data\\corporate_governance_processed.json",
+      "original_tokens": 29323,
+      "processed_tokens": 39347,
+      "chunks_created": 81,
+      "sections_identified": 2
+    },
+    {
+      "success": true,
+      "input_file": "extracted_data\\Financial_ratios.json",
+      "output_file": "processed_data\\Financial_ratios_processed.json",
+      "original_tokens": 2098,
+      "processed_tokens": 3433,
+      "chunks_created": 4,
+      "sections_identified": 2
+    },
+    {
+      "success": true,
+      "input_file": "extracted_data\\GMR.json",
+      "output_file": "processed_data\\GMR_processed.json",
+      "original_tokens": 3624,
+      "processed_tokens": 5819,
+      "chunks_created": 18,
+      "sections_identified": 2
+    },
+    {
+      "success": true,
+      "input_file": "extracted_data\\LoanProposal.json",
+      "output_file": "processed_data\\LoanProposal_processed.json",
+      "original_tokens": 2495,
+      "processed_tokens": 3072,
+      "chunks_created": 9,
+      "sections_identified": 2
+    },
+    {
+      "success": true,
+      "input_file": "extracted_data\\MDA.json",
+      "output_file": "processed_data\\MDA_processed.json",
+      "original_tokens": 32616,
+      "processed_tokens": 36122,
+      "chunks_created": 56,
+      "sections_identified": 2
+    },
+    {
+      "success": true,
+      "input_file": "extracted_data\\RatingRationale.json",
+      "output_file": "processed_data\\RatingRationale_processed.json",
+      "original_tokens": 6129,
+      "processed_tokens": 6931,
+      "chunks_created": 15,
+      "sections_identified": 2
+    },
+    {
+      "success": true,
+      "input_file": "extracted_data\\Standalone_Auditors_report.json",
+      "output_file": "processed_data\\Standalone_Auditors_report_processed.json",
+      "original_tokens": 27672,
+      "processed_tokens": 34278,
+      "chunks_created": 57,
+      "sections_identified": 2
+    }
+  ]
+}
