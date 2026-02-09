@@ -51,19 +51,24 @@ except ImportError as e:
 STORAGE_ACCOUNT_NAME = os.getenv("AZURE_STORAGE_ACCOUNT_NAME")
 CONTAINER_NAME = os.getenv("AZURE_STORAGE_CONTAINER_NAME", "creditreport")
 
-# Validate required environment variables
-if not STORAGE_ACCOUNT_NAME:
-    raise ValueError("AZURE_STORAGE_ACCOUNT_NAME environment variable is required")
+# Initialize blob service client (optional for local development)
+blob_service_client = None
+container_client = None
 
-# Initialize blob service client with Azure AD authentication
-logger.info("🔐 Using Azure AD authentication with DefaultAzureCredential")
-credential = DefaultAzureCredential()
-blob_service_client = BlobServiceClient(
-    account_url=f"https://{STORAGE_ACCOUNT_NAME}.blob.core.windows.net",
-    credential=credential
-)
-
-container_client = blob_service_client.get_container_client(CONTAINER_NAME)
+if STORAGE_ACCOUNT_NAME:
+    try:
+        logger.info("🔐 Using Azure AD authentication with DefaultAzureCredential")
+        credential = DefaultAzureCredential()
+        blob_service_client = BlobServiceClient(
+            account_url=f"https://{STORAGE_ACCOUNT_NAME}.blob.core.windows.net",
+            credential=credential
+        )
+        container_client = blob_service_client.get_container_client(CONTAINER_NAME)
+        logger.info(f"✅ Connected to Azure Storage: {STORAGE_ACCOUNT_NAME}/{CONTAINER_NAME}")
+    except Exception as e:
+        logger.warning(f"⚠️ Azure Storage connection failed: {e}")
+else:
+    logger.warning("⚠️ AZURE_STORAGE_ACCOUNT_NAME not set - running in demo mode (blob storage disabled)")
 
 # Get root_path from environment variable, default to "" for local development
 root_path = os.getenv("ROOT_PATH", "")

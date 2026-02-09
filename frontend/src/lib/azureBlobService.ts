@@ -1,5 +1,5 @@
 // Backend API URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://creditreport-backend.agreeablewave-76bf5979.eastus.azurecontainerapps.io';
 
 export interface UploadProgress {
   loaded: number;

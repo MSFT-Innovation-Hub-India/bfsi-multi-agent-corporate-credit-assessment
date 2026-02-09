@@ -1,124 +1,293 @@
-# GMR Investment Analysis Backend
+# BFSI Multi-Agent Corporate Credit Assessment
+AI-powered corporate credit analysis platform using Azure AI services for automated loan proposal verification, financial analysis, and comprehensive credit report generation.
 
-FastAPI service that exposes blob storage utilities, Semantic Kernel orchestration hooks, and health endpoints for the GMR research environment. The API delivers JSON responses compatible with the Vite frontend and can initiate multi-agent workflows on demand.
+## 🚀 Features
 
-## Project Structure
+- **Multi-Agent Architecture** — 4 specialized AI agents for comprehensive credit assessment
+- **Real-Time Processing** — Live agent progress tracking and updates
+- **Azure Integration** — Leverages Azure AI, OpenAI, Azure AI Projects, and Semantic Kernel
+- **Container-Ready** — Docker support with Azure Container Apps deployment
+- **Automated Credit Reports** — Generate comprehensive PDF credit analysis reports
 
-```
-deploymentdemogmr/
-├─ main.py                          # FastAPI application entry point
-├─ requirements.txt                 # Python dependencies
-├─ startup.sh                       # Sample launch script for hosted environments
-├─ Semantic_kernel_Orchestration/   # Agent orchestrators, prompts, and outputs
-│  ├─ analysis_outputs/             # Generated reports uploaded to Blob Storage
-│  ├─ Templates/                    # Instruction assets for each agent
-│  └─ *.py                          # Semantic Kernel pipelines and helpers
-├─ processed_data/                  # Preprocessed artefacts consumed by the agents
-├─ frontend/creditreportautomationUI/ # Legacy UI snapshot (reference only)
-├─ .env / .env.example              # Environment configuration (gitignored)
-└─ .github/workflows/               # CI pipeline for backend deployment
-```
+## 🤖 AI Agents
 
-## Prerequisites
+| Agent | Description | Output |
+|-------|-------------|--------|
+| **Proposal Verification Agent** | Validates loan proposal details, checks completeness, and verifies alignment with credit policies | Proposal validation report with compliance status |
+| **Company Profile Agent** | Analyzes company background, management, business model, market position, and governance | Detailed company profile and risk assessment |
+| **Financial Analysis Agent** | Performs comprehensive financial analysis including ratios, trends, cash flows, and creditworthiness evaluation | Financial health report with credit metrics |
+| **PDF Generator Agent** | Synthesizes all agent outputs into comprehensive credit assessment report with recommendations | Final credit report in PDF format |
 
-- Python 3.10 or newer
-- pip (or pipx) with virtual environment capability
-- Azure CLI authenticated against the target subscription
-- Optional: curl or Postman for exercising endpoints
+## 🛠️ Tech Stack
 
-## Configuration
+**Backend:** Python 3.10+, FastAPI, Uvicorn, Azure AI Projects SDK, Semantic Kernel
 
-1. Copy the sample environment file and create your local configuration:
-	```bash
-	cd deploymentdemogmr
-	copy .env.example .env       # Windows
-	# or
-	cp .env.example .env         # macOS/Linux
-	```
-2. Populate `.env` with values that match your Azure resources:
-	- Storage account and container (`AZURE_STORAGE_ACCOUNT_NAME`, `AZURE_STORAGE_CONTAINER_NAME`)
-	- Azure AI project identifiers (endpoint, subscription ID, resource group, project name)
-	- Azure OpenAI deployment information (or remove if unused)
-	- Optional overrides such as `PORT`, `ROOT_PATH`, or `ENVIRONMENT`
-3. Ensure the identity running the service (developer account, service principal, or managed identity) has **Storage Blob Data Contributor** on the storage account.
+**Frontend:** React 18, TypeScript, Vite, TailwindCSS
 
-The refreshed `.env.example` lists every required variable so new clones can configure the backend without hidden assumptions.
+**AI:** Azure OpenAI, Azure AI Projects, Semantic Kernel
 
-## Getting Started (Local Development)
+**Infrastructure:** Docker, Azure Container Apps, Azure Container Registry, Azure Blob Storage
+
+## 📦 Quick Start
+
+### Prerequisites
+- Python 3.10+
+- Node.js 18+
+- Azure subscription with required services
+- Azure CLI installed
+
+### Local Development
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/YOUR-USERNAME/bfsi-multi-agent-corporate-credit-assessment.git
+   cd bfsi-multi-agent-corporate-credit-assessment
+   ```
+
+2. **Set up environment variables**
+   ```bash
+   # Backend
+   cd backend
+   copy .env.example .env
+   # Edit .env with your Azure credentials
+   
+   # Frontend
+   cd ../frontend
+   copy .env.example .env
+   # Edit .env with backend URL
+   ```
+
+3. **Install and run backend**
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+   ```
+
+4. **Install and run frontend**
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+5. **Access the application**
+   - Frontend: `http://localhost:5173`
+   - Backend API: `http://localhost:8000`
+   - API Docs: `http://localhost:8000/docs`
+
+
+## ☁️ Deployment
+
+### Azure Container Apps
+
+#### Prerequisites
+- Azure CLI installed (`az --version`)
+- Azure subscription with required services
+
+#### Deploy Backend and Frontend
 
 ```bash
-cd deploymentdemogmr
-python -m venv .venv
-.venv\Scripts\activate    # PowerShell (use: source .venv/bin/activate on macOS/Linux)
-pip install --upgrade pip
-pip install -r requirements.txt
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+# 1. Login to Azure
+az login
+
+# 2. Create resource group
+az group create --name bfsi-credit-assessment-rg --location eastus
+
+# 3. Create container registry
+az acr create --resource-group bfsi-credit-assessment-rg \
+  --name bfsicreditacr --sku Basic --admin-enabled true
+
+# 4. Create Container Apps environment
+az containerapp env create \
+  --name bfsi-credit-env \
+  --resource-group bfsi-credit-assessment-rg \
+  --location eastus
+
+# 5. Build and deploy backend
+az acr build --registry bfsicreditacr --image bfsi-backend:latest ./backend
+
+az containerapp create \
+  --name bfsi-backend \
+  --resource-group bfsi-credit-assessment-rg \
+  --environment bfsi-credit-env \
+  --image bfsicreditacr.azurecr.io/bfsi-backend:latest \
+  --target-port 8000 \
+  --ingress external \
+  --registry-server bfsicreditacr.azurecr.io \
+  --cpu 1.0 --memory 2.0Gi \
+  --env-vars \
+    AZURE_OPENAI_ENDPOINT="https://your-openai.openai.azure.com/" \
+    AZURE_OPENAI_API_KEY="your-api-key" \
+    AZURE_OPENAI_DEPLOYMENT="gpt-4o" \
+    AZURE_AI_PROJECT_ENDPOINT="https://your-ai-project.openai.azure.com/" \
+    AZURE_AI_PROJECT_SUBSCRIPTION_ID="your-sub-id" \
+    AZURE_AI_PROJECT_RESOURCE_GROUP="your-rg" \
+    AZURE_AI_PROJECT_NAME="your-project" \
+    AZURE_STORAGE_ACCOUNT_NAME="yourstorageaccount" \
+    AZURE_STORAGE_CONTAINER_NAME="credit-reports"
+
+# 6. Get backend URL
+BACKEND_URL=$(az containerapp show --name bfsi-backend \
+  --resource-group bfsi-credit-assessment-rg \
+  --query properties.configuration.ingress.fqdn -o tsv)
+
+echo "Backend URL: https://$BACKEND_URL"
+
+# 7. Build and deploy frontend
+az acr build --registry bfsicreditacr \
+  --image bfsi-frontend:latest \
+  --build-arg VITE_API_BASE_URL=https://$BACKEND_URL \
+  ./frontend
+
+az containerapp create \
+  --name bfsi-frontend \
+  --resource-group bfsi-credit-assessment-rg \
+  --environment bfsi-credit-env \
+  --image bfsicreditacr.azurecr.io/bfsi-frontend:latest \
+  --target-port 80 \
+  --ingress external \
+  --registry-server bfsicreditacr.azurecr.io \
+  --cpu 0.5 --memory 1.0Gi
+
+# 8. Get frontend URL
+FRONTEND_URL=$(az containerapp show --name bfsi-frontend \
+  --resource-group bfsi-credit-assessment-rg \
+  --query properties.configuration.ingress.fqdn -o tsv)
+
+echo "Frontend URL: https://$FRONTEND_URL"
+echo "Deployment complete!"
 ```
 
-- Default base URL: http://localhost:8000
-- Interactive docs: http://localhost:8000/docs and http://localhost:8000/redoc
+#### Useful Commands
 
-## Local Verification Checklist
+```bash
+# View logs
+az containerapp logs show --name bfsi-backend --resource-group bfsi-credit-assessment-rg --follow
 
-1. **Health check**
-	```bash
-	curl http://localhost:8000/health
-	```
-	Expect `"status": "healthy"` once Azure credentials resolve.
-2. **Blob listing**
-	```bash
-	curl http://localhost:8000/api/blobs
-	```
-	Confirms access to the configured container.
-3. **Agent orchestration demo (optional)**
-	```bash
-	curl -X POST http://localhost:8000/api/analysis/start
-	```
-	Produces a session payload and uploads demo artefacts to Blob Storage.
+# Update backend after code changes
+az acr build --registry bfsicreditacr --image bfsi-backend:latest ./backend
+az containerapp update --name bfsi-backend --resource-group bfsi-credit-assessment-rg \
+  --image bfsicreditacr.azurecr.io/bfsi-backend:latest
 
-## Key Endpoints
+# Delete all resources
+az group delete --name bfsi-credit-assessment-rg --yes
+```
 
-- `GET /` — Welcome payload with available routes
-- `GET /health` — Storage connectivity and service status report
-- `GET /api/blobs` — List blobs (supports optional prefix filtering)
-- `GET /api/blobs/{blob_name}/download` — Stream blob content as a file response
-- `GET /api/blobs/{blob_name}/content` — Inspect blob content as JSON or text
-- `GET /api/blobs/{blob_name}/exists` — Check if a blob is present
-- `POST /api/blobs/upload` — Upload or overwrite a blob (multipart/form-data)
-- `DELETE /api/blobs/{blob_name}` — Remove a blob from the container
-- `POST /api/analysis/start` — Kick off the Semantic Kernel orchestration pipeline
-- `GET /api/analysis/status` — Inspect orchestration outputs and blob artefacts
-- `POST /api/agents/deploy-folder` — Copy Semantic Kernel assets to a temporary workspace for execution
+## 🔧 Configuration
 
-## Azure App Service Deployment
+### Required Azure Resources
 
-1. **Create the App Service plan**
-	- In the Azure portal, select **Create a resource** → **App Service plan**.
-	- Choose the subscription, set **Resource group** (for example, `fsi-demos`), pick a region, select a Linux plan (B1 or higher), and create the plan.
-2. **Provision the Web App**
-	- From the plan, create a new **Web App**.
-	- Select the same subscription/resource group, enter a globally unique name (for example, `gmr-backend-app`), choose **Code** → **Python 3.10**, and finish the wizard.
-3. **Enable managed identity**
-	- Open the Web App, navigate to **Identity**, and switch the **System assigned** identity to **On**. Save to provision the identity.
-4. **Grant Blob Storage permissions to the managed identity**
-	- In the storage account (`fsidemo`), go to **Access control (IAM)** → **Add role assignment**.
-	- Assign **Storage Blob Data Contributor** to the Web App’s managed identity.
-5. **Configure application settings**
-	- In the Web App, open **Configuration** → **Application settings**.
-	- Add the variables from `.env` (storage, AI project, OpenAI). Use Key Vault references or deployment slots for secrets where possible. Save and restart.
-6. **Deploy code**
-	- Package the backend (zip deploy, GitHub Actions, or Azure DevOps). The included `startup.sh` demonstrates how the runtime activates the environment and launches `uvicorn`.
-7. **Verify deployment**
-	- Browse to `https://<web-app-name>.azurewebsites.net/health` to confirm the service reports `"status": "healthy"`.
+| Resource | Purpose | Setup |
+|----------|---------|-------|
+| **Azure AI Project** | AI agent orchestration and management | Create in Azure AI Studio |
+| **Azure OpenAI** | GPT model deployment | Deploy GPT-4o or GPT-4o-mini |
+| **Azure Storage Account** | Store credit reports and analysis outputs | Create storage account with blob container |
+| **Azure Container Registry** | Docker image storage | Create ACR with admin enabled |
+| **Azure Container Apps** | Application hosting | Create environment for apps |
 
-## Additional Tips
+### Environment Variables
 
-- Keep `processed_data/` synced with the documents expected by the orchestration pipeline; agents resolve the directory via the `GMR_DATA_DIR` variable.
-- For large files, consider chunked uploads or generating SAS URLs as a future enhancement.
-- The orchestration flow writes to temporary directories; ensure the hosting platform permits write access to `/tmp` or override the path through environment variables.
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `AZURE_OPENAI_ENDPOINT` | ✅ | Azure OpenAI service endpoint |
+| `AZURE_OPENAI_API_KEY` | ✅ | Azure OpenAI API key |
+| `AZURE_OPENAI_DEPLOYMENT` | ✅ | Model deployment name (e.g., `gpt-4o`) |
+| `AZURE_AI_PROJECT_ENDPOINT` | ✅ | Azure AI Project endpoint |
+| `AZURE_AI_PROJECT_SUBSCRIPTION_ID` | ✅ | Azure subscription ID |
+| `AZURE_AI_PROJECT_RESOURCE_GROUP` | ✅ | Azure resource group name |
+| `AZURE_AI_PROJECT_NAME` | ✅ | Azure AI project name |
+| `AZURE_STORAGE_ACCOUNT_NAME` | ✅ | Azure Storage account for credit reports |
+| `AZURE_STORAGE_CONTAINER_NAME` | ✅ | Container name for report storage |
+| `PORT` | ⬜ | API server port (default: `8000`) |
+| `ENVIRONMENT` | ⬜ | Environment mode (`development`/`production`) |
+| `VITE_API_BASE_URL` | ✅ | Frontend: Backend API URL |
 
-## Related Resources
+## 📖 API Documentation
 
-- Frontend deployment instructions live in deploymentfrontendgmr/README.md.
-- CI configuration for production deployment resides in .github/workflows/main_creditbackend.yml.
+### Endpoints
 
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/` | Health check |
+| `GET` | `/api/fetchjson?file=<name>` | Fetch processed credit data and analysis outputs |
+| `POST` | `/api/orchestrate` | Trigger multi-agent credit analysis workflow |
+| `POST` | `/api/upload` | Upload loan proposal and financial documents |
+| `GET` | `/docs` | Interactive Swagger UI |
+
+Interactive documentation available at: `/docs` (Swagger UI)
+
+## 🏗️ Project Structure
+
+```
+bfsi-multi-agent-corporate-credit-assessment/
+├── backend/                    # FastAPI backend
+│   ├── Semantic_kernel_Orchestration/  # AI orchestration
+│   │   ├── orchestrator.py     #   Main orchestration engine
+│   │   ├── companyprofileagent.py #   Company analysis agent
+│   │   ├── FinDocAgent.py      #   Financial document agent
+│   │   ├── PropslVerficationAgent.py # Proposal verification agent
+│   │   ├── pdf_generator_agent.py #   Report generation agent
+│   │   ├── analysis_outputs/   #   Generated credit reports
+│   │   └── Templates/          #   Agent prompt templates
+│   ├── processed_data/         # Preprocessed financial data
+│   │   ├── LoanProposal_processed.json
+│   │   ├── Financial_ratios_processed.json
+│   │   ├── GMR_processed.json
+│   │   └── RatingRationale_processed.json
+│   ├── main.py                 # API entry point
+│   ├── requirements.txt        # Python dependencies
+│   ├── Dockerfile              # Backend container image
+│   └── .env.example            # Environment template
+├── frontend/                   # React frontend
+│   ├── src/
+│   │   ├── components/         # UI components
+│   │   ├── pages/              # Application pages
+│   │   │   ├── WorkflowPage/   #   Workflow monitor
+│   │   │   └── AgentsPage/     #   Agent outputs
+│   │   ├── hooks/              # Custom React hooks
+│   │   └── types/              # TypeScript types
+│   ├── public/                 # Static assets
+│   │   └── processed_data/     # Sample credit data
+│   ├── Dockerfile              # Frontend container image
+│   ├── package.json            # Node dependencies
+│   └── .env.example            # Environment template
+├── docker-compose.yml          # Local development
+├── DEPLOYMENT.md               # Deployment documentation
+└── README.md                   # This file
+```
+
+## 🔒 Security
+
+- **Environment Variables** — Credentials stored in Azure Container Apps configuration (never in code)
+- **Azure Key Vault** — Use for production secrets management
+- **CORS** — Properly configured for frontend access only
+- **HTTPS** — Enforced on all Azure deployments
+- **.gitignore** — Sensitive files and credentials excluded from source control
+
+## 📊 Monitoring
+
+- **Health Check** — `GET /` endpoint for availability monitoring
+- **Structured Logging** — Console logs with detailed agent execution tracking
+- **Azure Monitor** — Container Apps built-in metrics and log streaming
+- **Real-time Logs** — `az containerapp logs show --follow`
+- **Credit Report Tracking** — All generated reports stored in Azure Blob Storage
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📚 Additional Resources
+
+- [Azure Container Apps Documentation](https://learn.microsoft.com/azure/container-apps/)
+- [Azure AI Studio Documentation](https://learn.microsoft.com/azure/ai-studio/)
+- [Azure OpenAI Service](https://learn.microsoft.com/azure/ai-services/openai/)
+- [Semantic Kernel Documentation](https://learn.microsoft.com/semantic-kernel/)
+- [Azure AI Projects SDK](https://learn.microsoft.com/python/api/overview/azure/ai-projects-readme)
+- [FastAPI Documentation](https://fastapi.tiangolo.com/)
+- [React Documentation](https://react.dev/)
+- [Vite Documentation](https://vitejs.dev/)
