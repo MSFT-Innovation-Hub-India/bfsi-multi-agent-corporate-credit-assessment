@@ -7,6 +7,7 @@ export interface StartAnalysisRequest {
   priority_level?: 'low' | 'medium' | 'high' | 'urgent';
   description?: string;
   documents?: File[];
+  jsonFile?: File | null;
 }
 
 export interface StartAnalysisResponse {
@@ -71,11 +72,31 @@ export class GMRApiService {
     try {
       console.log('🚀 Starting analysis for:', request.company_name);
       
+      // Create FormData to send the JSON file
+      const formData = new FormData();
+      
+      // If no JSON file provided, create one from the request data
+      let jsonFile = request.jsonFile;
+      if (!jsonFile) {
+        const jsonData = {
+          company_name: request.company_name,
+          analyst_name: request.analyst_name || 'Credit Analyst',
+          priority_level: request.priority_level || 'medium',
+          description: request.description || 'Credit analysis',
+          analysis_type: 'comprehensive_credit_analysis',
+          timestamp: new Date().toISOString()
+        };
+        
+        const blob = new Blob([JSON.stringify(jsonData, null, 2)], { type: 'application/json' });
+        jsonFile = new File([blob], 'analysis-config.json', { type: 'application/json' });
+        console.log('📝 Created default JSON config:', jsonData);
+      }
+      
+      formData.append('json_file', jsonFile);
+      
       const response = await fetch(`${this.apiBaseUrl}/api/analysis/start`, {
         method: 'POST',
-        headers: {
-          'Accept': 'application/json'
-        }
+        body: formData
       });
 
       const result = await this.handleResponse<StartAnalysisResponse>(response);

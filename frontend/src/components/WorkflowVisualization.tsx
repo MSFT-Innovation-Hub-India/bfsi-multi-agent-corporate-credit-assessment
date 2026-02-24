@@ -308,18 +308,37 @@ const FullResponseModal: React.FC<{
     setIsLoading(true);
     setError(null);
     try {
-      if (!isConfigured) {
-        setError('Azure Blob Storage is not configured. Please check your environment variables.');
-        return;
+      // Try blob storage first if configured
+      if (isConfigured) {
+        try {
+          console.log(`📄 Loading text content from blob: ${content}`);
+          const text = await getBlobText(content);
+          setFileContent(text);
+          console.log(`✅ Successfully loaded from blob: ${content} (${text.length} characters)`);
+          return;
+        } catch (blobErr) {
+          console.warn('⚠️ Blob storage failed, trying public folder fallback:', blobErr);
+        }
       }
 
-      console.log(`📄 Loading text content: ${content}`);
-      const text = await getBlobText(content);
-      setFileContent(text);
-      console.log(`✅ Successfully loaded: ${content} (${text.length} characters)`);
+      // Fallback to public folder
+      // Extract filename from path (e.g., "market_analyst.txt" from full path)
+      const fileName = content.split('/').pop() || content;
+      const publicPath = `/processed_data/${fileName}`;
+      
+      console.log(`📂 Attempting to load from public folder: ${publicPath}`);
+      const response = await fetch(publicPath);
+      
+      if (response.ok) {
+        const text = await response.text();
+        setFileContent(text);
+        console.log(`✅ Successfully loaded from public folder: ${publicPath} (${text.length} characters)`);
+      } else {
+        throw new Error(`Public folder fetch failed with status: ${response.status}`);
+      }
     } catch (err) {
       console.error('Error loading text content:', err);
-      setError(`Failed to load file: ${content}. ${err instanceof Error ? err.message : 'Unknown error'}`);
+      setError(`Failed to load file: ${content}. ${err instanceof Error ? err.message : 'Unknown error'}. Please ensure the file exists in blob storage or public/processed_data folder.`);
     } finally {
       setIsLoading(false);
     }
@@ -327,34 +346,50 @@ const FullResponseModal: React.FC<{
 
   const handleDownload = async () => {
     try {
-      if (!isConfigured) {
-        alert('Azure Blob Storage is not configured. Cannot download file.');
-        return;
-      }
-
       if (!content) {
-        alert('No file to download.');
+        console.warn('⚠️ No file to download');
         return;
       }
 
       console.log(`📥 Downloading file: ${content}`);
       
-      // Download the file as blob
-      const blob = await downloadFile(content);
-      const url = URL.createObjectURL(blob);
+      // Try blob storage first if configured
+      if (isConfigured) {
+        try {
+          const blob = await downloadFile(content);
+          const url = URL.createObjectURL(blob);
+          
+          // Create a link and trigger download
+          const link = document.createElement("a");
+          link.download = content;
+          link.href = url;
+          link.click();
+          
+          // Clean up
+          URL.revokeObjectURL(url);
+          console.log(`✅ Download completed from blob: ${content}`);
+          return;
+        } catch (blobErr) {
+          console.warn('⚠️ Blob download failed, trying public folder:', blobErr);
+        }
+      }
+
+      // Fallback to public folder
+      const fileName = content.split('/').pop() || content;
+      const publicPath = `/processed_data/${fileName}`;
       
-      // Create a link and trigger download
+      console.log(`📂 Attempting to download from public folder: ${publicPath}`);
+      
+      // Directly open public URL
       const link = document.createElement("a");
-      link.download = content;
-      link.href = url;
+      link.download = fileName;
+      link.href = publicPath;
       link.click();
       
-      // Clean up
-      URL.revokeObjectURL(url);
-      console.log(`✅ Download completed: ${content}`);
+      console.log(`✅ Download initiated from public folder: ${publicPath}`);
     } catch (err) {
-      console.error('Download error:', err);
-      alert(`Failed to download file: ${err instanceof Error ? err.message : 'Unknown error'}`);
+      console.error('❌ Download error:', err);
+      // Silent fallback - error is logged to console only
     }
   };
 
@@ -484,7 +519,7 @@ const FullResponseModal: React.FC<{
                         </div>
                       </div>
                       
-                      <div className="bg-gray-50 rounded-xl p-4 border border-gray-200 max-h-96 overflow-y-auto">
+                      <div className="bg-gray-50 rounded-xl p-4 border border-gray-200 max-h-64 overflow-y-auto">
                         <pre className="text-sm text-gray-800 whitespace-pre-wrap font-mono leading-relaxed">
                           {fileContent}
                         </pre>

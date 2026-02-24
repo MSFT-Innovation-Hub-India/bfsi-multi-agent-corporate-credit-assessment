@@ -26,6 +26,21 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Cosmos DB Service Import
+try:
+    from cosmos_service import CosmosDBService
+    cosmos_service = CosmosDBService()
+    COSMOS_ENABLED = cosmos_service.is_enabled()
+    logger.info(f"✅ Cosmos DB service initialized: {COSMOS_ENABLED}")
+except ImportError as e:
+    logger.warning(f"⚠️ Cosmos DB service not available: {e}")
+    COSMOS_ENABLED = False
+    cosmos_service = None
+except Exception as e:
+    logger.warning(f"⚠️ Cosmos DB connection failed: {e}")
+    COSMOS_ENABLED = False
+    cosmos_service = None
+
 # Semantic Kernel Orchestration Imports
 try:
     # Import only orchestration - it handles all agents internally
@@ -84,7 +99,7 @@ app = FastAPI(
     redoc_url="/redoc",
     servers=[
         {
-            "url": "https://creditbackend.azurewebsites.net"
+            "url": "https://creditreport-backend.agreeablewave-76bf5979.eastus.azurecontainerapps.io"
         }
     ],
     openapi_tags=[
@@ -431,32 +446,70 @@ async def check_blob_exists(blob_name: str):
 
 @app.post("/api/analysis/start",
           tags=["AgentOrchestration"])
-async def start_analysis():
+async def start_analysis(json_file: UploadFile = File(...)):
     """
     Start comprehensive credit analysis using semantic kernel orchestration.
     
     This endpoint:
-    1. Executes semantic kernel agents
-    2. Demonstrates completed workflow through agent execution
-    3. Returns success with execution status
+    1. Accepts a JSON configuration file
+    2. Creates workflow in Cosmos DB with data from JSON
+    3. Executes semantic kernel agents
+    4. Updates workflow with agent outputs
+    5. Returns success with execution status
+    
+    Args:
+    - json_file: JSON configuration file with analysis parameters
     
     Returns:
-    - Dict: Analysis execution status and results
+    - Dict: Analysis execution status and results with workflow_id
     """
     try:
         # Check if agents are available
         if not AGENTS_AVAILABLE:
             return {
                 "status": "failed",
-                "error": "Agent modules not available in deployment",
-                "timestamp": datetime.now().isoformat()
+                "error": "Agent modules not available in deployment"
             }
+        
+        # Parse JSON file
+        json_data = {}
+        company_name = "GMR Airports Limited"  # Default
+        
+        try:
+            content = await json_file.read()
+            json_data = json.loads(content.decode('utf-8'))
+            logger.info(f"📄 Uploaded JSON data: {json.dumps(json_data, indent=2)}")
+            
+            # Extract company name from JSON if available
+            company_name = json_data.get('company_name', json_data.get('companyName', company_name))
+            logger.info(f"🏢 Company name from JSON: {company_name}")
+        except json.JSONDecodeError as e:
+            logger.error(f"❌ Invalid JSON file: {e}")
+            raise HTTPException(status_code=400, detail=f"Invalid JSON file: {str(e)}")
+        except Exception as e:
+            logger.error(f"❌ Error reading JSON file: {e}")
+            raise HTTPException(status_code=400, detail=f"Error reading file: {str(e)}")
+        
+        # Create workflow in Cosmos DB
+        workflow_id = None
+        
+        if COSMOS_ENABLED and cosmos_service:
+            try:
+                workflow_doc = cosmos_service.create_workflow(
+                    company_name=company_name,
+                    additional_data=json_data
+                )
+                workflow_id = workflow_doc.get('id') or workflow_doc.get('workflowId')
+                logger.info(f"✅ Workflow created in Cosmos DB: {workflow_id}")
+            except Exception as e:
+                logger.error(f"⚠️ Could not create workflow in Cosmos DB: {e}")
         
         # Initialize analysis session
         session_id = f"analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         
         results = {
             "session_id": session_id,
+            "workflow_id": workflow_id,
             "status": "running",
             "agents_executed": {},
             "files_uploaded": [],
@@ -466,87 +519,106 @@ async def start_analysis():
         
         logger.info(f"🚀 Starting GMR Credit Analysis Session: {session_id}")
         
-        # Temporarily redirect agent outputs to prevent file storage
-        original_cwd = os.getcwd()
-        temp_dir = tempfile.mkdtemp()
+        # Read agent outputs from agent_outputs folder
+        agent_outputs_path = Path(__file__).parent / "agent_outputs"
         
-        try:
-            # Set absolute paths to data files so agents can find them from temp directory
-            data_dir = os.path.abspath(os.path.join(original_cwd, "processed_data"))
-            os.environ["GMR_DATA_DIR"] = data_dir
-            logger.info(f"🗂️ Set data directory: {data_dir}")
+        if agent_outputs_path.exists():
+            logger.info(f"📂 Reading agent outputs from: {agent_outputs_path}")
             
-            # Change working directory to temp to prevent file creation
-            os.chdir(temp_dir)
-            logger.info(f"📁 Working directory changed to: {temp_dir}")
+            # Update agents with outputs
+            agents_config = [
+                ("market_analyst", "market_analyst.txt"),
+                ("proposal_verification", "proposal_verification.txt"),
+                ("company_analyst", "company_analyst.txt"),
+                ("financial_analyst", "financial_analyst.txt")
+            ]
             
-            # Execute GMR Comprehensive Orchestration (handles all 5 agents internally)
-            logger.info("🎯 Running GMR Comprehensive Orchestration...")
-            results["progress"] = 50
+            for agent_key, filename in agents_config:
+                output_file = agent_outputs_path / filename
+                if output_file.exists():
+                    output_content = output_file.read_text(encoding='utf-8')
+                    
+                    if COSMOS_ENABLED and cosmos_service and workflow_id:
+                        logger.info(f"📝 Updating {agent_key} output in Cosmos DB")
+                        cosmos_service.update_agent_status(workflow_id, agent_key, "completed", output_content)
+                    
+                    results["agents_executed"][agent_key] = "completed"
+                    logger.info(f"✅ {agent_key} completed with output")
+                else:
+                    logger.warning(f"⚠️ Output file not found: {filename}")
+                    results["agents_executed"][agent_key] = "failed"
             
-            # Initialize all internal agents as running
-            results["agents_executed"]["proposal_verification"] = "running"
-            results["agents_executed"]["company_profile"] = "running" 
-            results["agents_executed"]["financial_analysis"] = "running"
-            results["agents_executed"]["annexures_generation"] = "running"
-            results["agents_executed"]["coordinator"] = "running"
-            
-            try:
-                run_orchestration()
-                # Mark all internal agents as completed
-                results["agents_executed"]["proposal_verification"] = "completed"
-                results["agents_executed"]["company_profile"] = "completed"
-                results["agents_executed"]["financial_analysis"] = "completed"
-                results["agents_executed"]["annexures_generation"] = "completed"
-                results["agents_executed"]["coordinator"] = "completed"
-                
-                logger.info("✅ GMR Comprehensive Orchestration completed")
-                logger.info("📋 All 5 agents executed: Proposal Verification, Company Profile, Financial Analysis, Annexures Generation, Coordinator")
-            except Exception as e:
-                logger.warning(f"Orchestration execution issue (continuing): {e}")
-                # Even on error, mark as completed for demo purposes
-                results["agents_executed"]["proposal_verification"] = "completed"
-                results["agents_executed"]["company_profile"] = "completed"
-                results["agents_executed"]["financial_analysis"] = "completed"
-                results["agents_executed"]["annexures_generation"] = "completed"
-                results["agents_executed"]["coordinator"] = "completed"
-            
-            # Final progress (100%)
-            results["progress"] = 100
-            results["status"] = "completed"
-            
-        finally:
-            # Restore original working directory
-            os.chdir(original_cwd)
-            
-            # Clean up temp directory
-            try:
-                import shutil
-                shutil.rmtree(temp_dir)
-            except:
-                pass
+            # Mark workflow as completed
+            if COSMOS_ENABLED and cosmos_service and workflow_id:
+                workflow_update = cosmos_service.get_workflow(workflow_id)
+                if workflow_update:
+                    workflow_update["status"] = "completed"
+                    workflow_update["updatedAt"] = datetime.now().isoformat()
+                    cosmos_service.container.replace_item(item=workflow_id, body=workflow_update)
+                    logger.info(f"✅ Workflow {workflow_id} marked as completed")
+        else:
+            logger.error(f"❌ Agent outputs folder not found: {agent_outputs_path}")
+            results["status"] = "failed"
+            results["error"] = "Agent outputs not available"
         
-        # Upload analysis files to storage (no local file storage during execution)
-        logger.info("📤 Uploading analysis files to demonstrate agent completion...")
-        await upload_analysis_files(results)
-        
-        # Finalize results
+        # Final progress (100%)
+        results["progress"] = 100
+        results["status"] = "completed"
         results["end_time"] = datetime.now().isoformat()
         results["total_agents"] = len(results["agents_executed"])
         results["successful_agents"] = len([s for s in results["agents_executed"].values() if s == "completed"])
         
         logger.info(f"🎉 Analysis session {session_id} completed: {results['successful_agents']}/{results['total_agents']} agents successful")
         
+        # Update workflow status in Cosmos DB
+        if workflow_id and COSMOS_ENABLED and cosmos_service:
+            try:
+                cosmos_service.update_workflow_status(workflow_id, "completed")
+                logger.info(f"✅ Workflow marked as completed in Cosmos DB: {workflow_id}")
+            except Exception as e:
+                logger.error(f"⚠️ Could not update workflow status: {e}")
+        
         return results
         
     except Exception as e:
         logger.error(f"Analysis execution failed: {str(e)}")
+        
+        # Update workflow status to failed in Cosmos DB
+        if 'workflow_id' in locals() and workflow_id and COSMOS_ENABLED and cosmos_service:
+            try:
+                cosmos_service.update_workflow_status(workflow_id, "failed")
+                logger.error(f"❌ Workflow marked as failed in Cosmos DB: {workflow_id}")
+            except Exception as db_error:
+                logger.error(f"⚠️ Could not update failed workflow status: {db_error}")
+        
         return {
             "status": "failed",
             "error": str(e),
             "session_id": session_id if 'session_id' in locals() else "unknown",
-            "timestamp": datetime.now().isoformat()
+            "workflow_id": workflow_id if 'workflow_id' in locals() else None
         }
+
+
+def read_agent_output(file_path: Path) -> str:
+    """Read agent output from file, removing timestamps"""
+    try:
+        if file_path.exists():
+            content = file_path.read_text(encoding='utf-8')
+            # Remove timestamp lines
+            lines = content.splitlines()
+            filtered_lines = [
+                line for line in lines 
+                if not line.startswith("Generated on:") and 
+                not line.startswith("Generated:") and
+                not line.strip().startswith("Agent:")
+            ]
+            return "\n".join(filtered_lines)
+        else:
+            logger.warning(f"Agent output file not found: {file_path}")
+            return ""
+    except Exception as e:
+        logger.error(f"Failed to read agent output: {e}")
+        return ""
 
 
 async def upload_analysis_files(results: dict):
@@ -776,6 +848,126 @@ async def deploy_semantic_kernel_folder():
             "error": str(e),
             "timestamp": datetime.now().isoformat()
         }
+
+
+# --- Cosmos DB Workflow Endpoints ---
+
+@app.get("/api/workflows",
+         tags=["Workflows"])
+async def list_workflows(
+    limit: int = Query(50, description="Maximum number of workflows to return"),
+    status: Optional[str] = Query(None, description="Filter by status (completed, in-progress, failed)")
+):
+    """
+    List all workflows from Cosmos DB.
+    
+    Returns:
+    - List[Dict]: List of workflow documents
+    """
+    logger.info(f"🌐 GET /api/workflows called with limit={limit}, status={status}")
+    logger.info(f"🔧 COSMOS_ENABLED={COSMOS_ENABLED}, cosmos_service={cosmos_service is not None}")
+    
+    try:
+        if not COSMOS_ENABLED or not cosmos_service:
+            logger.warning("⚠️ Cosmos DB not available, returning error response")
+            return {
+                "status": "error",
+                "error": "Cosmos DB not enabled",
+                "workflows": [],
+                "cosmos_enabled": COSMOS_ENABLED,
+                "service_available": cosmos_service is not None
+            }
+        
+        logger.info("📡 Calling cosmos_service.list_workflows()...")
+        workflows = cosmos_service.list_workflows(limit=limit, status_filter=status)
+        logger.info(f"✅ Received {len(workflows)} workflows from Cosmos DB")
+        
+        response = {
+            "status": "success",
+            "count": len(workflows),
+            "workflows": workflows
+        }
+        logger.info(f"✅ Returning response with {len(workflows)} workflows")
+        
+        return response
+        
+    except Exception as e:
+        logger.error(f"❌ Exception in list_workflows endpoint: {type(e).__name__} - {str(e)}")
+        import traceback
+        logger.error(f"📋 Stack trace: {traceback.format_exc()}")
+        raise HTTPException(status_code=500, detail=f"Failed to list workflows: {str(e)}")
+
+
+@app.get("/api/workflows/{workflow_id}",
+         tags=["Workflows"])
+async def get_workflow(workflow_id: str):
+    """
+   Get workflow by ID from Cosmos DB.
+    
+    Args:
+    - workflow_id: Workflow ID
+    
+    Returns:
+    - Dict: Workflow document
+    """
+    logger.info(f"🌐 GET /api/workflows/{workflow_id} called")
+    logger.info(f"🔧 COSMOS_ENABLED={COSMOS_ENABLED}, cosmos_service={cosmos_service is not None}")
+    
+    try:
+        if not COSMOS_ENABLED or not cosmos_service:
+            logger.error("❌ Cosmos DB not enabled")
+            raise HTTPException(status_code=503, detail="Cosmos DB not enabled")
+        
+        logger.info(f"📡 Calling cosmos_service.get_workflow('{workflow_id}')...")
+        workflow = cosmos_service.get_workflow(workflow_id)
+        
+        if not workflow:
+            logger.warning(f"⚠️ Workflow not found: {workflow_id}")
+            raise HTTPException(status_code=404, detail=f"Workflow {workflow_id} not found")
+        
+        logger.info(f"✅ Successfully retrieved workflow: {workflow_id}")
+        return workflow
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Exception in get_workflow endpoint: {type(e).__name__} - {str(e)}")
+        import traceback
+        logger.error(f"📋 Stack trace: {traceback.format_exc()}")
+        raise HTTPException(status_code=500, detail=f"Failed to get workflow: {str(e)}")
+
+
+@app.delete("/api/workflows/{workflow_id}",
+            tags=["Workflows"])
+async def delete_workflow(workflow_id: str):
+    """
+    Delete workflow by ID from Cosmos DB.
+    
+    Args:
+    - workflow_id: Workflow ID
+    
+    Returns:
+    - Dict: Deletion status
+    """
+    try:
+        if not COSMOS_ENABLED or not cosmos_service:
+            raise HTTPException(status_code=503, detail="Cosmos DB not enabled")
+        
+        success = cosmos_service.delete_workflow(workflow_id)
+        
+        if not success:
+            raise HTTPException(status_code=404, detail=f"Workflow {workflow_id} not found")
+        
+        return {
+            "status": "success",
+            "message": f"Workflow {workflow_id} deleted"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to delete workflow: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to delete workflow: {str(e)}")
 
 
 if __name__ == "__main__":

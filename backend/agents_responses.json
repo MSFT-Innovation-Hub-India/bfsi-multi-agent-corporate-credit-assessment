@@ -1,0 +1,30 @@
+{
+  "agents": {
+    "market_analyst": {
+      "status": "completed",
+      "output": "# GMR Airports Infrastructure Sentiment Analysis Report\n\nCurrent Sentiment Snapshot\nAs of late 2025, sentiment in the infrastructure sector is generally optimistic. GMR Airports Infrastructure Ltd coverage is highly positive, with multiple outlets highlighting bullish investor sentiment driven by strategic expansions and increasing passenger traffic. GMR announced the transformation of Nagpur Airport to serve 30 million passengers annually, enhancing its position in the aviation industry. Over the past year, GMR's stock price has experienced a 12% increase, reflecting positive investor confidence.\n\nSentiment by News Source\nDifferent news sources have provided varying perspectives, though most remain optimistic overall:\n\n- **GMR Group Official Media**: Bullish tone on GMR's Nagpur airport transformation to handle 30 million passengers\n- **Economic Times Markets**: Bullish with positive shifts in airline partnerships and passenger traffic growth\n- **ET Infrastructure News**: Positive highlights of GMR's strategic expansions and partnerships\n- **Live Mint Markets**: Positive reports on GMR's upward stock trajectory amidst growing infrastructure investments\n\nOverall, the GMR coverage appears more bullish compared to the broader infrastructure sentiment, likely due to specific strategic expansions.",
+      "startedAt": "2026-02-20T06:00:00.000Z",
+      "completedAt": "2026-02-20T06:03:00.000Z"
+    },
+    "proposal_verification": {
+      "status": "completed",
+      "output": "# GMR AIRPORTS LIMITED - PROPOSAL VERIFICATION & CREDIT APPRAISAL NOTE\n\n**Borrower Name**: GMR Airports Limited  \n**Group**: GMR Group  \n**Proposal Type**: Enhancement of Existing Credit Facilities (Board Approved)  \n**Promoter Shareholding**: 54.27%  \n**Main Bankers**: ICICI Bank (Primary), SBI, HDFC Bank, Axis Bank  \n**Market Cap**: ₹105.59 Billion (04-OCT-2025)  \n**Total Exposure to Company**: ₹12,200 Million (including proposed sanction)  \n**Total Exposure to Group**: ₹65,800 Million  \n\n## Facility Table\n| Facility Type | Amount | Purpose | Tenure | Security |\n|--------------|---------|---------|---------|----------|\n| Term Loan - I | ₹4,000 Million | Infrastructure expansion | 84 months | Secured (pari-passu charge) |\n| Cash Credit Limit | ₹1,200 Million | Working capital requirements | Revolving | Secured (hypothecation) |\n| Bank Guarantee | ₹5,000 Million | Performance Guarantees | 12 months | Secured |\n\n## Committee Recommendation\nICICI Bank Credit Committee (07-OCT-2025) recommended approval of the proposal for enhancement of existing credit facilities from ₹8,300 Million to ₹12,200 Million.\n\n**OVERALL VERIFICATION STATUS**: ✅ VERIFIED\nThe proposal for GMR Airports Limited is largely consistent with supportive documentation. Recommendations include strategic initiatives to improve profitability and operational efficiency.",
+      "startedAt": "2026-02-20T06:03:30.000Z",
+      "completedAt": "2026-02-20T06:05:00.000Z"
+    },
+    "company_analyst": {
+      "status": "completed",
+      "output": "# GMR AIRPORTS LIMITED - COMPANY PROFILE\n\n**Company Profile**: GMR Airports Limited is a listed entity and leading player in the airport infrastructure sector with a market capitalisation of ₹105.59 billion and promoter holding of 66.24%.\n\n## Key Financial Highlights (Last 3 Years)\n| Particulars | FY2022 | FY2023 | FY2024 | Growth |\n|------------|---------|---------|---------||---------|\n| Total Revenue | ₹8.75B | ₹10.41B | ₹12.63B | 21.24% |\n| EBITDA | ₹0.66B | ₹0.69B | ₹0.69B | 0.00% |\n| PAT | -₹0.54B | -₹0.19B | -₹0.19B | - |\n\n## Operational Performance\n| Metric | FY2024 | Growth |\n|--------|---------|--------|\n| Passenger Traffic | 79.30 Million | 16.18% |\n| Aircraft Movements | 469,800 | 0.38% |\n| Cargo Handled | 1.109M MT | 9.48% |\n\n## Business Segments\n- **Aeronautical Services**: 42.62% of revenue\n- **Non-Aeronautical Services**: 57.38% of revenue\n  - Retail & Commercial: 22%\n  - Cargo & Logistics: 4%\n  - Real Estate: 3%\n\n## Airport Portfolio\nGMR operates 6 major airports with a combined capacity of 197 million passengers per annum (MPPA), including Delhi International Airport (DIAL) and Hyderabad International Airport (GHIAL).",
+      "startedAt": "2026-02-20T06:05:30.000Z",
+      "completedAt": "2026-02-20T06:07:00.000Z"
+    },
+    "financial_analyst": {
+      "status": "completed",
+      "output": "# GMR AIRPORTS LIMITED - FINANCIAL ANALYSIS\n\n## Current Year Performance\n| Particulars | FY2024 | FY2023 | Variance |\n|------------|---------|---------|----------|\n| Total Operating Income | ₹10.41B | ₹8.75B | 19.02% |\n| EBITDA | ₹4.19B | ₹3.42B | 22.56% |\n| EBITDA Margin | 40.24% | 39.05% | 3.06% |\n| Interest | ₹3.70B | ₹2.93B | 26.36% |\n| PAT | -₹0.82B | -₹0.83B | 1.20% |\n| Net Cash Accruals | ₹3.80B | ₹3.00B | 26.67% |\n\n## Key Observations\n- Total operating income increased by 19.02% YoY, driven by significant recovery in passenger traffic\n- EBITDA growth of 22.56% highlights operational improvements and cost management initiatives\n- Net Cash Accruals increased by 26.67%, indicating improved cash flow generation\n\n## Cash Flow Analysis\n| Particulars | FY2024 | FY2023 |\n|------------|---------||---------|\n| Operating Cash Flow | ₹3.68B | ₹3.88B |\n| Investing Cash Flow | -₹3.67B | -₹4.52B |\n| Financing Cash Flow | ₹0.50B | -₹3.00B |\n\n## Credit Analyst Commentary\n**Revenue & Cash**: Consistent revenue growth and strong operating cash generation  \n**Balance Sheet**: Stable leverage and robust asset base; liquidity needs active management  \n**Profitability**: Margins pressured by high finance costs; operations remain sound  \n**Recommendation**: Moderate-to-strong repayment capacity; recommend credit approval with regular monitoring",
+      "startedAt": "2026-02-20T06:07:30.000Z",
+      "completedAt": "2026-02-20T06:10:00.000Z"
+    }
+  },
+  "messageCount": 8,
+  "responseCount": 4
+}

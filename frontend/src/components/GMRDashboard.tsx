@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -14,7 +15,8 @@ import {
   PieChart,
   Clock,
   CheckCircle,
-  Loader2
+  Loader2,
+  History
 } from 'lucide-react';
 import { formatNumber, getStatusColor, getCreditRatingColor } from '@/lib/utils';
 import { GMRAnalysisSession, SystemStatistics, AgentPerformanceMetrics } from '@/types/gmr';
@@ -677,6 +679,7 @@ const mockAgentPerformance: AgentPerformanceMetrics[] = [
 ];
 
 export const GMRDashboard: React.FC<GMRDashboardProps> = ({ onSessionSelect }) => {
+  const navigate = useNavigate();
   const [currentView, setCurrentView] = useState<'overview' | 'workflow' | 'analytics'>('overview');
   const [sessions, setSessions] = useState<GMRAnalysisSession[]>(mockSessions);
   const [systemStats] = useState<SystemStatistics>(mockSystemStats);
@@ -723,6 +726,32 @@ export const GMRDashboard: React.FC<GMRDashboardProps> = ({ onSessionSelect }) =
     setSelectedSession(session);
     setCurrentView('workflow');
     onSessionSelect?.(session.session_metadata.session_id);
+  };
+
+  const handleDownloadPDF = async (session: GMRAnalysisSession, event: React.MouseEvent) => {
+    event.stopPropagation(); // Prevent session click
+    const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8001';
+    
+    try {
+      // Try blob storage API first
+      const blobUrl = `${API_URL}/api/blobs/GMR_Credit_Report.pdf/download`;
+      console.log('📥 Attempting PDF download from blob storage:', blobUrl);
+      
+      // Check if blob endpoint is responsive
+      const response = await fetch(blobUrl, { method: 'HEAD' });
+      if (response.ok) {
+        window.open(blobUrl, '_blank');
+        console.log('✅ PDF download from blob storage initiated');
+        return;
+      }
+    } catch (blobErr) {
+      console.warn('⚠️ Blob storage download failed, trying public folder fallback:', blobErr);
+    }
+    
+    // Fallback to public folder
+    const publicPdfPath = '/processed_data/GMR_Comprehensive_Credit_Analysis.pdf';
+    console.log('📂 Downloading PDF from public folder:', publicPdfPath);
+    window.open(publicPdfPath, '_blank');
   };
 
   // Quick stats cards data
@@ -787,6 +816,14 @@ export const GMRDashboard: React.FC<GMRDashboardProps> = ({ onSessionSelect }) =
                 <RefreshCw className="h-4 w-4 mr-2" />
               )}
               Refresh
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => navigate('/workflows')}
+            >
+              <History className="h-4 w-4 mr-2" />
+              View Logs
             </Button>
             <Button size="sm" onClick={handleNewSession}>
               <Plus className="h-4 w-4 mr-2" />

@@ -1,0 +1,29 @@
+# GMR AIRPORTS LIMITED - FINANCIAL ANALYSIS
+
+## Current Year Performance
+| Particulars | FY2024 | FY2023 | Variance |
+|------------|---------|---------|----------|
+| Total Operating Income | ₹10.41B | ₹8.75B | 19.02% |
+| EBITDA | ₹4.19B | ₹3.42B | 22.56% |
+| EBITDA Margin | 40.24% | 39.05% | 3.06% |
+| Interest | ₹3.70B | ₹2.93B | 26.36% |
+| PAT | -₹0.82B | -₹0.83B | 1.20% |
+| Net Cash Accruals | ₹3.80B | ₹3.00B | 26.67% |
+
+## Key Observations
+- Total operating income increased by 19.02% YoY, driven by significant recovery in passenger traffic
+- EBITDA growth of 22.56% highlights operational improvements and cost management initiatives
+- Net Cash Accruals increased by 26.67%, indicating improved cash flow generation
+
+## Cash Flow Analysis
+| Particulars | FY2024 | FY2023 |
+|------------|---------|---------|
+| Operating Cash Flow | ₹3.68B | ₹3.88B |
+| Investing Cash Flow | -₹3.67B | -₹4.52B |
+| Financing Cash Flow | ₹0.50B | -₹3.00B |
+
+## Credit Analyst Commentary
+**Revenue & Cash**: Consistent revenue growth and strong operating cash generation  
+**Balance Sheet**: Stable leverage and robust asset base; liquidity needs active management  
+**Profitability**: Margins pressured by high finance costs; operations remain sound  
+**Recommendation**: Moderate-to-strong repayment capacity; recommend credit approval with regular monitoring

@@ -2,6 +2,7 @@
 azure-ai-projects==1.0.0b10
 azure-identity==1.25.1
 azure-storage-blob==12.23.1
+azure-cosmos==4.7.0
 semantic-kernel==1.29.0
 
 # Core FastAPI dependencies

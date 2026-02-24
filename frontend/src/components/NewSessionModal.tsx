@@ -24,7 +24,8 @@ export const NewSessionModal: React.FC<NewSessionModalProps> = ({
     analyst_name: '',
     priority_level: 'medium',
     description: '',
-    documents: [] as File[]
+    documents: [] as File[],
+    jsonFile: null as File | null
   });
 
   if (!isOpen) return null;
@@ -40,6 +41,20 @@ export const NewSessionModal: React.FC<NewSessionModalProps> = ({
         ...prev,
         documents: [...prev.documents, ...Array.from(e.target.files!)]
       }));
+    }
+  };
+
+  const handleJsonUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      if (file.type === 'application/json' || file.name.endsWith('.json')) {
+        setFormData(prev => ({
+          ...prev,
+          jsonFile: file
+        }));
+      } else {
+        alert('Please upload a valid JSON file');
+      }
     }
   };
 
@@ -138,11 +153,58 @@ export const NewSessionModal: React.FC<NewSessionModalProps> = ({
             </div>
           </div>
 
+          {/* JSON Configuration Upload */}
+          <div className="space-y-4">
+            <h3 className="font-semibold text-gray-900 flex items-center gap-2">
+              <Upload className="h-5 w-5" />
+              Configuration File (Required)
+            </h3>
+            
+            <div className="border-2 border-dashed border-blue-300 rounded-lg p-6 text-center hover:border-blue-500 transition-colors bg-blue-50">
+              <input
+                type="file"
+                accept=".json,application/json"
+                onChange={handleJsonUpload}
+                className="hidden"
+                id="json-upload"
+                required
+              />
+              <label htmlFor="json-upload" className="cursor-pointer">
+                <Upload className="h-8 w-8 text-blue-500 mx-auto mb-2" />
+                <p className="text-sm text-gray-700 font-medium">
+                  Click to upload JSON configuration file
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Required: .json file with analysis configuration
+                </p>
+              </label>
+            </div>
+
+            {formData.jsonFile && (
+              <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="flex items-center gap-2">
+                  <Upload className="h-4 w-4 text-blue-600" />
+                  <span className="text-sm font-medium text-blue-900">{formData.jsonFile.name}</span>
+                </div>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setFormData(prev => ({ ...prev, jsonFile: null }));
+                  }}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
+          </div>
+
           {/* Document Upload */}
           <div className="space-y-4">
             <h3 className="font-semibold text-gray-900 flex items-center gap-2">
               <Upload className="h-5 w-5" />
-              Documents (Optional)
+              Supporting Documents (Optional)
             </h3>
             
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">

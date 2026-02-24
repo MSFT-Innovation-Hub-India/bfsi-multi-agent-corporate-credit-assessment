@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import GMRDashboard from './components/GMRDashboard';
+import WorkflowList from './components/WorkflowList';
+import WorkflowDetail from './components/WorkflowDetail';
 import './index.css';
 
 function App() {
@@ -11,7 +13,8 @@ function App() {
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/dashboard" element={<GMRDashboard />} />
           <Route path="/dashboard/:sessionId" element={<GMRDashboard />} />
-          {/* Future routes can be added here */}
+          <Route path="/workflows" element={<WorkflowList />} />
+          <Route path="/workflows/:workflowId" element={<WorkflowDetail />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </div>
