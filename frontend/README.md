@@ -49,12 +49,12 @@ Provide runtime settings through `.env` (copy from `.env.example`). Common value
 ```
 VITE_API_BASE_URL=http://localhost:8000
 VITE_AZURE_OPENAI_ENDPOINT=https://your-openai-endpoint.openai.azure.com/
-VITE_AZURE_OPENAI_API_KEY=your_openai_api_key
 VITE_AZURE_OPENAI_DEPLOYMENT_NAME=gpt-4o-mini
 VITE_AZURE_OPENAI_API_VERSION=2024-12-01-preview
 ```
 
 Adjust `VITE_API_BASE_URL` when pointing at deployed FastAPI instances.
+Keep Azure OpenAI API keys in the backend runtime environment; never put secrets in `VITE_` variables.
 
 ## Deployment Notes
 
